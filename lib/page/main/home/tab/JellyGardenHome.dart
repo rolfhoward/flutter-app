@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/net/NetUtils.dart';
 import 'package:flutter_app/page/main/home/model/JellyGardenUserListModel.dart';
+import 'package:flutter_app/page/main/home/model/ResultPageModel.dart';
 import 'package:flutter_app/resource/colors.dart';
+import 'package:flutter_app/viewmodel/home/home_provider.dart';
 import 'package:flutter_refresh/flutter_refresh.dart';
 
 class JellyGardenHome extends StatefulWidget {
@@ -23,6 +25,7 @@ class JellyGardenState extends State<JellyGardenHome>
   //TabBar和TabBarView正是通过同一个controller来实现菜单切换和滑动状态同步的。
   TabController tabController;
   JellyGardenUserListModel resultModel;
+  HomeProvider _homeProvider = HomeProvider();
 
   @override
   void initState() {
@@ -214,8 +217,7 @@ class JellyGardenState extends State<JellyGardenHome>
                       width: 65,
                       height: 65,
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            data.photo),
+                        backgroundImage: NetworkImage(data.photo),
                         backgroundColor: MColors.base_color,
                         radius: 40.0,
                       )),
@@ -313,16 +315,15 @@ class JellyGardenState extends State<JellyGardenHome>
   }
 
   getData() {
-    Map<String, int> params = {"page": 1, "size": 2};
-    NetUtils.postT("http://192.168.1.8:8080/user/list", params: params)
-////    NetUtils.post("http://10.112.13.118:8080/user/list", params: params)
-        .then((map) {
+    _homeProvider
+        .loadJellyGardenList(1)
+        .doOnListen(() {})
+        .doOnCancel(() {})
+        .listen((data) {
       setState(() {
-        resultModel = JellyGardenUserListModel.fromJson(map);
+        resultModel = JellyGardenUserListModel.fromJson(data.data);
       });
-    }).catchError((e) {
-      setState(() {});
-    });
+    }, onError: (e) {});
   }
 
   Future<Null> _onHeaderRefresh() {
@@ -338,5 +339,16 @@ class JellyGardenState extends State<JellyGardenHome>
     });
   }
 
-  Future<Null> _onFooterRefresh() {}
+  Future<Null> _onFooterRefresh() {
+    return new Future.delayed(new Duration(milliseconds: 500), () {
+      setState(() {
+//        rowNumber = 0;
+//        lastFileID = '0';
+//        if (dataItems != null) {
+//          dataItems.clear();
+//        }
+//        getNewsData(lastFileID, rowNumber);
+      });
+    });
+  }
 }

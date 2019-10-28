@@ -59,14 +59,13 @@ Map<String, dynamic> _$JellyGardenUserListModelToJson(
     };
 
 JellyGardenUserModel _$JellyGardenUserModelFromJson(Map<String, dynamic> json) {
-  return JellyGardenUserModel(
-      json['id'] as int,
-      json['nickName'] as String,
-      json['password'] as String,
-      (json['registerDate'] as num)?.toDouble(),
-      json['sex'] as int,
-      json['username'] as String,
-      json['photo'] as String);
+  return JellyGardenUserModel(json['id'] as int)
+    ..nickName = json['nickName'] as String
+    ..password = json['password'] as String
+    ..registerDate = (json['registerDate'] as num)?.toDouble()
+    ..sex = json['sex'] as int
+    ..username = json['username'] as String
+    ..photo = json['photo'] as String;
 }
 
 Map<String, dynamic> _$JellyGardenUserModelToJson(

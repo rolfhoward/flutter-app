@@ -1,5 +1,4 @@
 
-import 'package:flutter_app/page/main/home/model/ResultPageModel.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'ResultModel.g.dart';
 

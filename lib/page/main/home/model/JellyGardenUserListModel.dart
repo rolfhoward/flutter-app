@@ -24,8 +24,7 @@ class JellyGardenUserModel {
   String username;
   String photo;
 
-  JellyGardenUserModel(this.id, this.nickName, this.password, this.registerDate,
-      this.sex, this.username, this.photo);
+  JellyGardenUserModel(this.id);
 
   factory JellyGardenUserModel.fromJson(Map<String, dynamic> json)=>_$JellyGardenUserModelFromJson(json);
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_app/base/ResultModel.dart';
+import 'package:flutter_app/base/api_config.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum Method {
@@ -28,7 +29,7 @@ class NetUtils{
   NetUtils() {
     dio = new Dio()
       ..options = BaseOptions(
-          baseUrl: "http://192.168.1.8:8080",
+          baseUrl: ApiConfig.baseUrl,
           connectTimeout: 30000,
           receiveTimeout: 30000);
   }

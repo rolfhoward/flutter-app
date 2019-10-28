@@ -5,10 +5,13 @@ class LoadingDialog extends CupertinoAlertDialog {
   BuildContext currentContext;
 
   String _message = "";
+
   String get message => _message;
+
   set message(String message) {
     _message = message;
   }
+
   show(BuildContext context) {
     showing = true;
     _showLoadingDialog(context, this).then((r) {
@@ -27,7 +30,7 @@ class LoadingDialog extends CupertinoAlertDialog {
 
   hide(BuildContext context) {
     if (showing) {
-      Navigator.removeRoute(context, ModalRoute.of(currentContext));
+      Navigator.of(context).pop();
     }
   }
 
@@ -44,20 +47,22 @@ class LoadingDialog extends CupertinoAlertDialog {
               height: 120,
               color: Colors.transparent,
               child: Center(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                        width: 45.0,
-                        height: 45.0,
-                        child: const CircularProgressIndicator(strokeWidth: 2.0)
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(_message, style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.none))
-                  ],
-                )
-              ),
+                  child: Column(
+                children: <Widget>[
+                  SizedBox(
+                      width: 45.0,
+                      height: 45.0,
+                      child: const CircularProgressIndicator(strokeWidth: 2.0)),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(_message,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          decoration: TextDecoration.none))
+                ],
+              )),
             ),
           );
         },
@@ -69,5 +74,9 @@ class LoadingDialog extends CupertinoAlertDialog {
 /**
  * 显示loading框  , 隐藏调用 Navigator.pop(context)
  */
-Future _showLoadingDialog(BuildContext c, LoadingDialog loading, {bool cancelable = true}) =>
-    showDialog(context: c, barrierDismissible: cancelable, builder: (BuildContext c) => loading);
+Future _showLoadingDialog(BuildContext c, LoadingDialog loading,
+        {bool cancelable = true}) =>
+    showDialog(
+        context: c,
+        barrierDismissible: cancelable,
+        builder: (BuildContext c) => loading);
