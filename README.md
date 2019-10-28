@@ -1,7 +1,7 @@
 # flutter_app
 
 Flutter基础框架<br>
-1、MVVM模式搭建项目框架<br>
+1、基于provider、MVVM框架 搭建项目框架<br>
 2、图片适配<br>
 3、Dio网络请求封装及json数据序列化成对象<br>
 4、Flutter调用Android原生接口
