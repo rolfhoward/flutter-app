@@ -1,6 +1,10 @@
 # flutter_app
 
-A new Flutter application.
+Flutter基础框架
+1、MVVM模式搭建项目框架
+2、图片适配
+3、Dio网络请求封装及json数据序列化成对象
+4、Flutter调用Android原生接口
 
 ## Getting Started
 
