@@ -7,7 +7,7 @@ Flutter基础框架<br>
 4、Flutter调用Android原生接口
 
 ## Getting Started
-https://github.com/rolfhoward/flutter-app/blob/master/手机号登录%402x.png
+![image](https://github.com/rolfhoward/flutter-app/blob/master/手机号登录%402x.png)
 
 This project is a starting point for a Flutter application.
 
