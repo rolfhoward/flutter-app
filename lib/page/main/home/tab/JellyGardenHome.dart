@@ -24,14 +24,18 @@ class JellyGardenState extends State<JellyGardenHome>
   //用于控制/监听Tab菜单切换
   //TabBar和TabBarView正是通过同一个controller来实现菜单切换和滑动状态同步的。
   TabController tabController;
+  int _currentIndex = 0; //tab下标
   JellyGardenUserListModel resultModel;
   HomeProvider _homeProvider = HomeProvider();
+  List<JellyGardenUserModel> userModelList = new List();
+  var page = 1;
 
   @override
   void initState() {
     ///初始化，这个函数在生命周期中只调用一次
     super.initState();
     tabController = TabController(length: tabs.length, vsync: this);
+    tabController.addListener(() => _onTabChanged());
     getData();
   }
 
@@ -174,11 +178,11 @@ class JellyGardenState extends State<JellyGardenHome>
     if (resultModel == null) {
       return Container(
         alignment: Alignment.center,
-        child: Text("加载中"),
+        child: Text("数据加载中..."),
       );
     }
 
-    if (resultModel.list.length <= 0) {
+    if (userModelList.length <= 0) {
       return Container(
         alignment: Alignment.center,
         child: Text("暂无数据"),
@@ -193,9 +197,9 @@ class JellyGardenState extends State<JellyGardenHome>
             child: new ListView.builder(
           physics: physics,
           controller: controller,
-          itemCount: resultModel.list.length,
+          itemCount: userModelList.length,
           itemBuilder: (context, item) {
-            return buildListData(context, resultModel.list[item]);
+            return buildListData(context, userModelList[item]);
           },
         ));
       },
@@ -316,39 +320,43 @@ class JellyGardenState extends State<JellyGardenHome>
 
   getData() {
     _homeProvider
-        .loadJellyGardenList(1)
+        .loadJellyGardenList(_currentIndex, page)
         .doOnListen(() {})
         .doOnCancel(() {})
         .listen((data) {
-      setState(() {
-        resultModel = JellyGardenUserListModel.fromJson(data.data);
-      });
+      if (mounted) {
+        setState(() {
+          if (page == 1) {
+            userModelList.clear();
+          }
+          resultModel = JellyGardenUserListModel.fromJson(data.data);
+          userModelList.addAll(resultModel.list);
+        });
+      }
     }, onError: (e) {});
   }
 
   Future<Null> _onHeaderRefresh() {
     return new Future.delayed(new Duration(milliseconds: 500), () {
-      setState(() {
-//        rowNumber = 0;
-//        lastFileID = '0';
-//        if (dataItems != null) {
-//          dataItems.clear();
-//        }
-//        getNewsData(lastFileID, rowNumber);
-      });
+      page = 1;
+      getData();
     });
   }
 
   Future<Null> _onFooterRefresh() {
     return new Future.delayed(new Duration(milliseconds: 500), () {
-      setState(() {
-//        rowNumber = 0;
-//        lastFileID = '0';
-//        if (dataItems != null) {
-//          dataItems.clear();
-//        }
-//        getNewsData(lastFileID, rowNumber);
-      });
+      page++;
+      getData();
     });
+  }
+
+  _onTabChanged() {
+    if (tabController.index.toDouble() == tabController.animation.value) {
+      //赋值 并更新数据
+      this.setState(() {
+        _currentIndex = tabController.index;
+      });
+      getData();
+    }
   }
 }

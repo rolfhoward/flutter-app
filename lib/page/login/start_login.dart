@@ -45,7 +45,7 @@ class LoginState extends State<Login> {
           },
         ),
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(

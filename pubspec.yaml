@@ -30,6 +30,7 @@ dependencies:
   provider: ^3.1.0
   rxdart: ^0.21.0
   crypto: ^2.0.6
+  shared_preferences: ^0.5.4+3
 dev_dependencies:
   build_runner: ^1.0.0
   json_serializable: ^2.0.0
